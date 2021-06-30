@@ -219,18 +219,122 @@ const int stateValue(const OthelloBoard b)
         {20, -3, 11,  8,  8, 11, -3, 20},
     };
 
-    int val = 0;
+    double a, b, c;
+    int player_tiles, enemy_tiles;
+
+    // board weight
+    a = 0;
     for (int i = 0; i < SIZE; i++)
     {
         for (int j = 0; j < SIZE; j++)
         {
-            if (b.board[i][j] == 1)
-                val += weight[i][j];
-            else if (b.board[i][j] == 2)
-                val -= weight[i][j];
+            if (now.board[i][j] == now_player)
+                a += weight[i][j];
+            else if (now.board[i][j] == 3 - now_player)
+                a -= weight[i][j];
         }
     }
-    return val;
+
+    // corners
+    player_tiles = 0;
+    enemy_tiles = 0;
+
+    if(now.board[0][0] == now_player)
+        player_tiles++;
+    else if(now.board[0][0] == 3 - now_player)
+        enemy_tiles++;
+
+    if(now.board[0][7] == now_player)
+        player_tiles++;
+    else if(now.board[0][7] == 3 - now_player)
+        enemy_tiles++;
+
+    if(now.board[7][0] == now_player)
+        player_tiles++;
+    else if(now.board[7][0] == 3 - now_player)
+        enemy_tiles++;
+
+    if(now.board[7][7] == now_player)
+        player_tiles++;
+    else if(now.board[7][7] == 3 - now_player)
+        enemy_tiles++;
+
+    b = 30 * (player_tiles - enemy_tiles);
+
+    // tiles around corners
+    player_tiles = 0;
+    enemy_tiles = 0;
+    if(now.board[0][0] == ' ')
+    {
+        if(now.board[0][1] == now_player)
+            player_tiles++;
+        else if(now.board[0][1] == 3 - now_player)
+            enemy_tiles++;
+
+        if(now.board[1][1] == now_player)
+            player_tiles++;
+        else if(now.board[1][1] == 3 - now_player)
+            enemy_tiles++;
+
+        if(now.board[1][0] == now_player)
+            player_tiles++;
+        else if(now.board[1][0] == 3 - now_player)
+            enemy_tiles++;
+    }
+    if(now.board[0][7] == ' ')
+    {
+        if(now.board[0][6] == now_player)
+            player_tiles++;
+        else if(now.board[0][6] == 3 - now_player)
+            enemy_tiles++;
+
+        if(now.board[1][6] == now_player)
+            player_tiles++;
+        else if(now.board[1][6] == 3 - now_player)
+            enemy_tiles++;
+
+        if(now.board[1][7] == now_player)
+            player_tiles++;
+        else if(now.board[1][7] == 3 - now_player)
+            enemy_tiles++;
+    }
+    if(now.board[7][0] == ' ')
+    {
+        if(now.board[7][1] == now_player)
+            player_tiles++;
+        else if(now.board[7][1] == 3 - now_player)
+            enemy_tiles++;
+
+        if(now.board[6][1] == now_player)
+            player_tiles++;
+        else if(now.board[6][1] == 3 - now_player)
+            enemy_tiles++;
+
+        if(now.board[6][0] == now_player)
+            player_tiles++;
+        else if(now.board[6][0] == 3 - now_player)
+            enemy_tiles++;
+    }
+    if(now.board[7][7] == ' ')
+    {
+        if(now.board[6][7] == now_player)
+            player_tiles++;
+        else if(now.board[6][7] == 3 - now_player)
+            enemy_tiles++;
+
+        if(now.board[6][6] == now_player)
+            player_tiles++;
+        else if(now.board[6][6] == 3 - now_player)
+            enemy_tiles++;
+
+        if(now.board[7][6] == now_player)
+            player_tiles++;
+        else if(now.board[7][6] == 3 - now_player)
+            enemy_tiles++;
+    }
+    c = -15 * (player_tiles - enemy_tiles);
+
+    return a + b + c;
 }
 
 int index;
