@@ -207,7 +207,29 @@ void read_valid_spots(std::ifstream& fin)
 
 const int stateValue(const OthelloBoard b)
 {
-    int val = b.disc_count[1] - b.disc_count[2];
+    int weight[8][8] =
+    {
+        {20, -3, 11,  8,  8, 11, -3, 20},
+        {-3, -7, -4,  1,  1, -4, -7, -3},
+        {11, -4,  2,  2,  2,  2, -4, 11},
+        { 8,  1,  2, -3, -3,  2,  1,  8},
+        { 8,  1,  2, -3, -3,  2,  1,  8},
+        {11, -4,  2,  2,  2,  2, -4, 11},
+        {-3, -7, -4,  1,  1, -4, -7, -3},
+        {20, -3, 11,  8,  8, 11, -3, 20},
+    };
+
+    int val = 0;
+    for (int i = 0; i < SIZE; i++)
+    {
+        for (int j = 0; j < SIZE; j++)
+        {
+            if (b.board[i][j] == 1)
+                val += weight[i][j];
+            else if (b.board[i][j] == 2)
+                val -= weight[i][j];
+        }
+    }
     return val;
 }
 
